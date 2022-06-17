@@ -1,6 +1,7 @@
 ﻿HashSet<Tuple<int, int>> visited = new HashSet<Tuple<int, int>>();
 List<Island> islands = new List<Island>();
 
+#region Matrix generation
 /* int[][] matrix = {
     new[] { 3, 1, 1, 7, 7, 9, 3, 1 },
     new[] { 4, 1, 1, 7, 8, 6, 1, 9 },
@@ -13,7 +14,7 @@ List<Island> islands = new List<Island>();
 }; */
 // Is matrix quadratic btw? :D
 Console.WriteLine("Enter the number of rows and columns: ");
-int rows = int.Parse(Console.ReadLine());
+int rows = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
 int columns = rows;
 
 int[][] matrix = new int[rows][];
@@ -29,9 +30,11 @@ for (int i = 0; i < rows; i++)
     }
     Console.WriteLine();
 }
+#endregion
 
 Console.ReadLine();
 
+#region MainLogic
 // matrix should have more than 6 and less than 13 rows/columns
 if (matrix.Length <= 6 || matrix.Length >= 13) return;
 if (matrix[0].Length <= 6 || matrix[0].Length >= 13) return;
@@ -44,9 +47,13 @@ for (int i = 0; i < matrix.Length; i++)
             CheckMatrix(i, j, matrix[i][j]);
     }
 }
+#endregion
 
+#region Answer
 List<Island> result = islands.Where(x => x.GetSize() >= 4).ToList();
 foreach (var island in result) Console.WriteLine(island.GetReport());
+#endregion
+
 
 void CheckMatrix(int row, int column, int former, Island? island = null)
 {
@@ -74,6 +81,8 @@ void CheckMatrix(int row, int column, int former, Island? island = null)
     CheckMatrix(row, column - 1, former, island); // left
     CheckMatrix(row, column + 1, former, island); // right
 }
+
+
 class Island
 {
     public int FormerNumber { get; set; }
